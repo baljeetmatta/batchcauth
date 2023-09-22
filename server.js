@@ -7,6 +7,8 @@ const session=require("express-session");
 const oneday=1000*60*60*24;
 app.use(cookieparser());
 app.use(express.urlencoded());
+app.set("view engine","ejs");
+
 app.use(session({
     saveUninitialized:true,
     resave:false,
@@ -24,7 +26,9 @@ function auth(req,res,next)
     res.redirect("/");
 
 }
-
+app.get("/login",(req,res)=>{
+    res.render("login",{message:""})
+})
 app.post("/login",(req,res)=>{
     //fs.readFileSync("users.txt","utf-8")8
     fs.readFile("users.txt","utf-8",(err,data)=>{
@@ -34,11 +38,13 @@ app.post("/login",(req,res)=>{
             return true;
         })
         if(resultarray.length==0)
-        res.send("Invalid user/password");
+       // res.send("Invalid user/password");
+      res.render("login",{message:"Invalid user/password"})
     else
     {
        
-        req.session.username="aa";
+        req.session.username=req.body.username;
+        req.session.name=resultarray[0].Name;
 
     res.redirect("/users/dashboard");
     }
