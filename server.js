@@ -26,6 +26,7 @@ function auth(req,res,next)
     res.redirect("/");
 
 }
+
 app.get("/login",(req,res)=>{
     res.render("login",{message:""})
 })
@@ -54,7 +55,29 @@ app.post("/login",(req,res)=>{
     })
 
 })
+app.get("/",(req,res)=>{
 
+    fs.readFile("products.json","utf-8",(err,data)=>{
+        let productsData=JSON.parse(data);
+
+        res.render("index",{products:productsData});
+    })
+   
+
+})
+app.get("/productDetails/:id",(req,res)=>{
+
+    fs.readFile("products.json","utf-8",(err,data)=>{
+        let productsData=JSON.parse(data);
+        let results=productsData.filter((item)=>{
+            if(item.id==req.params.id)
+            return true;
+        })
+
+        res.render("index",{products:results});
+    })
+
+})
 app.listen(3000,(err)=>{
     console.log("Server Started...");
 

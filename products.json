@@ -1,0 +1,44 @@
+[
+    {
+        "id":1,
+        "name":"First Product",
+        "price":490,
+        "description":"This is first product",
+        "image":"https://picsum.photos/300/300"
+    },
+    {
+        "id":2,
+        "name":"Second Product",
+        "price":590,
+        "description":"This is Second product",
+        "image":"https://picsum.photos/300/300"
+    },
+    {
+        "id":3,
+        "name":"Third Product",
+        "price":230,
+        "description":"This is Third product",
+        "image":"https://picsum.photos/300/300"
+    },
+    {
+        "id":4,
+        "name":"Frouth Product",
+        "price":150,
+        "description":"This is Frouth product",
+        "image":"https://picsum.photos/300/300"
+    },
+    {
+        "id":5,
+        "name":"Third Product",
+        "price":230,
+        "description":"This is Third product",
+        "image":"https://picsum.photos/300/300"
+    },
+    {
+        "id":6,
+        "name":"Frouth Product",
+        "price":150,
+        "description":"This is Frouth product",
+        "image":"https://picsum.photos/300/300"
+    }
+]
