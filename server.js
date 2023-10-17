@@ -4,6 +4,13 @@ const path=require("path");
 const fs=require("fs");
 const cookieparser=require("cookie-parser");
 const session=require("express-session");
+const client=require("mongodb").MongoClient;
+let dbinstance;
+client.connect("mongodb://127.0.0.1:27017").then((data)=>{
+
+dbinstance=data.db("EcommC");
+
+})
 const oneday=1000*60*60*24;
 app.use(cookieparser());
 app.use(express.urlencoded());
@@ -18,6 +25,9 @@ app.use(session({
 const authRoutes=require("./routing/authroutes")
 app.use("/users",auth,authRoutes);
 app.use(express.static("public"));
+const productRoutes=require("./routing/productroutes");
+app.use("/products",productRoutes);
+
 function auth(req,res,next)
 {
     if(req.session.username)
@@ -31,36 +41,54 @@ app.get("/login",(req,res)=>{
     res.render("login",{message:""})
 })
 app.post("/login",(req,res)=>{
+    dbinstance.collection("users").findOne({$and:[{'username':req.body.username},{'password':req.body.password}]}).then((response)=>{
+if(response==null)
+res.render("login",{message:"Invalid user/password"})
+else
+{
+   // response=JSON.parse(response);
+    req.session.username=response.username;
+
+         req.session.name=response.name;
+         res.redirect("/users/dashboard");
+}
+
+
+
+    });
     //fs.readFileSync("users.txt","utf-8")8
-    fs.readFile("users.txt","utf-8",(err,data)=>{
-        let results=JSON.parse(data);
-      let resultarray=  results.filter((item)=>{
-            if(item.username==req.body.username && item.password==req.body.password)
-            return true;
-        })
-        if(resultarray.length==0)
-       // res.send("Invalid user/password");
-      res.render("login",{message:"Invalid user/password"})
-    else
-    {
+    // fs.readFile("users.txt","utf-8",(err,data)=>{
+    //     let results=JSON.parse(data);
+    //   let resultarray=  results.filter((item)=>{
+    //         if(item.username==req.body.username && item.password==req.body.password)
+    //         return true;
+    //     })
+    //     if(resultarray.length==0)
+    //    // res.send("Invalid user/password");
+    //   res.render("login",{message:"Invalid user/password"})
+    // else
+    // {
        
-        req.session.username=req.body.username;
-        req.session.name=resultarray[0].Name;
+    //     req.session.username=req.body.username;
+    //     req.session.name=resultarray[0].Name;
 
-    res.redirect("/users/dashboard");
-    }
+    // res.redirect("/users/dashboard");
+    // }
 
 
 
-    })
+    // })
 
 })
 app.get("/",(req,res)=>{
 
-    fs.readFile("products.json","utf-8",(err,data)=>{
-        let productsData=JSON.parse(data);
+    // fs.readFile("products.json","utf-8",(err,data)=>{
+    //     let productsData=JSON.parse(data);
 
-        res.render("index",{products:productsData});
+    //     res.render("index",{products:productsData});
+    // })
+    dbinstance.collection("products").find({}).toArray().then((response)=>{
+        res.render("index",{products:response});
     })
    
 

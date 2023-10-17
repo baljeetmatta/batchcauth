@@ -1,0 +1,22 @@
+<%-include("../header")%>
+<form action="/products/edit" method="post">
+<% data.forEach((item)=>{%>
+<div>
+    <input type="hidden" name="id" value="<%=item._id%>"/>
+    
+    Name <input type="text" name="name" value="<%=item.name%>"/>
+    </div>
+    <div>
+        Price <input type="text" name="price" value="<%=item.price%>"/>
+        </div>
+        <div>
+            Description <textarea name="description"> <%=item.description%></textarea>
+
+            </div>
+           <div>
+            <input type="submit" value="Edit"/>
+
+           </div>
+        <%})%>
+    </form>
+            <%-include("../footer")%>

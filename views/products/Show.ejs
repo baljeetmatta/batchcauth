@@ -1,0 +1,14 @@
+<%-include("../header")%>
+<% data.forEach((item)=>{%>
+<div>
+    Name <%=item.name%>
+    </div>
+    <div>
+        Price <%=item.price%>
+        </div>
+        <div>
+            Description <%=item.description%>
+            </div>
+           
+        <%})%>
+            <%-include("../footer")%>

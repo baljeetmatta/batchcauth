@@ -1,0 +1,34 @@
+<%-include("../header")%>
+
+<a href="/products/create" class="btn btn-primary">Create</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                    <% products.forEach((item)=>{%>
+
+                        <tr>
+                           <td> <img src="<%=item.image%>" width="100" height="100"/>
+                           </td>
+                           <td><%=item.name%></td>
+                            <td><%=item.price%></td>
+                            <td><%=item.description%></td>
+                           <td><a href="/products/<%=item._id%>">View</a>/<a href="/products/edit/<%=item._id%>">Edit</a>/<a href="/products/delete/<%=item._id%>">Delete</a></td>
+                        </tr>
+                       
+                        
+
+                    <%})%>
+
+
+            </tbody>
+        </table>
+        <%-include("../footer")%>
